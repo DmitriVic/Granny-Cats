@@ -50,8 +50,6 @@ let ageCat = ""
 			})
 		}))
 		e.addEventListener('mouseenter', (e =>{
-			console.log(e.target);
-			console.log(e.target.querySelector('.card__img')); 
 			e.target.querySelector('.card__img').style.filter = "opacity(100%)"
 		}))
 		e.addEventListener('mouseleave', (e =>{ 
