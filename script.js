@@ -3,10 +3,12 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 .then(response => response.json())
 .then(data => {
 	let objCats = data.data.filter(e => typeof e.img_link === "string")
+	//localStorage.setItem("boxCat", JSON.sringufy(objCats))
 	console.log(objCats);
 	createCatsCards(objCats)
-	creatingFillingPopup(cats)
+	creatingFillingPopup(objCats)
 	//console.log(objCats[1]);
+	console.log(window.localStorage);
 	
 })
 
@@ -48,18 +50,22 @@ function createCatsCards(cats) {
 function creatingFillingPopup(cats) {
 	let card = document.querySelectorAll('.card')
 	let ageCat = ""
+	//console.log(card);
 	card.forEach(e => {
+		//console.log(e.getAttribute("data-name"));
 		e.addEventListener('click', (el => {
-			console.log(el);
+			
 			cats.forEach(item => {
+				//console.log(el.currentTarget.getAttribute("data-name"));
 				if (el.currentTarget.getAttribute("data-name") * 1 === item.id) {
-				// 	if (item.age === 1) {
-				// 		ageCat = "Год"
-				// 	} else if (item.age === 2) {
-				// 		ageCat = "Годa"
-				// 	} else {
-				// 		ageCat = "Лет"
-				// 	}
+					console.log(el.currentTarget.getAttribute("data-name"));
+					if (item.age === 1) {
+						ageCat = "Год"
+					} else if (item.age === 2 || item.age === 3 || item.age === 4) {
+						ageCat = "Годa"
+					} else {
+						ageCat = "Лет"
+					}
 					document.querySelector('.popup').classList.add("_active")
 					document.querySelector('.popup__img').setAttribute('src', item.img_link)
 					document.querySelector('.popup__title').innerText = item.name
@@ -87,4 +93,6 @@ function creatingFillingPopup(cats) {
 	}))
 }
 
-//creatingFillingPopup()
+//localStorage.setItem("boxCat", JSON.sringufy)
+
+//console.log(window.localStorage);
