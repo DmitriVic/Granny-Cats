@@ -1,10 +1,11 @@
-let objCats =""
+
 fetch("https://sb-cats.herokuapp.com/api/show")
 .then(response => response.json())
 .then(data => {
-	objCats = data.data
+	let objCats = data.data.filter(e => typeof e.img_link === "string")
 	console.log(objCats);
 	createCatsCards(objCats)
+	creatingFillingPopup(cats)
 	//console.log(objCats[1]);
 	
 })
@@ -14,12 +15,10 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 //================			Создание карточек с котами/ Creating cards with cats			========================================================================================================================================
 
 function createCatsCards(cats) {
-	cats.forEach(function (item, index) {
-		if (typeof item.img_link === "string") {
-			console.log(index);
-		
-			document.querySelector('.cats__container').innerHTML +=
-				`	<div class="cats__card card" data-name = "${item.id}">
+  cats.forEach(function (item, index) {
+    document.querySelector(
+      ".cats__container"
+    ).innerHTML += `	<div class="cats__card card" data-name = "${item.id}">
 		<div class="card__content">
 			<div class="card__box-img">
 				<img src="${item.img_link}" class="card__img" alt="">
@@ -27,19 +26,17 @@ function createCatsCards(cats) {
 			<div class="card__name">${item.name}</div>
 			<div class="card__rate"></div>
 		</div>
-	</div> `
-			 let cardRate = document.querySelectorAll('.card__rate')
-			 //console.log(cardRate[index]);
-			// for (let indexx = 0; indexx < 10; indexx++) {
-				
-			// 	// if (item.rate > indexx) {
-			// 	// 	cardRate[index].innerHTML += '<img src="https://sb-cats.herokuapp.com/img/cat-fill.svg" class="imgcats" alt="^_^">'
-			// 	// } else {
-			// 	// 	cardRate[index].innerHTML += '<img src="https://sb-cats.herokuapp.com/img/cat-stroke.svg" class="imgcats" alt="O_o">'
-			// 	// }
-			// }
-		}
-	})
+	</div> `;
+    let cardRate = document.querySelectorAll(".card__rate");
+   // console.log(cardRate[index]);
+    for (let indexx = 0; indexx < 10; indexx++) {
+    	if (item.rate > indexx) {
+    		cardRate[index].innerHTML += '<img src="https://sb-cats.herokuapp.com/img/cat-fill.svg" class="imgcats" alt="^_^">'
+    	} else {
+    		cardRate[index].innerHTML += '<img src="https://sb-cats.herokuapp.com/img/cat-stroke.svg" class="imgcats" alt="O_o">'
+    	}
+    }
+  });
 }
 //console.log(1 === /\d/);
 //========================================================================================================================================================
@@ -48,20 +45,21 @@ function createCatsCards(cats) {
 
 //===================			Создание и передача данных в popup / Creating and transferring data to Popup			===================================================================================================================================
 
-function creatingFillingPopup() {
+function creatingFillingPopup(cats) {
 	let card = document.querySelectorAll('.card')
 	let ageCat = ""
 	card.forEach(e => {
 		e.addEventListener('click', (el => {
+			console.log(el);
 			cats.forEach(item => {
 				if (el.currentTarget.getAttribute("data-name") * 1 === item.id) {
-					if (item.age === 1) {
-						ageCat = "Год"
-					} else if (item.age === 2) {
-						ageCat = "Годa"
-					} else {
-						ageCat = "Лет"
-					}
+				// 	if (item.age === 1) {
+				// 		ageCat = "Год"
+				// 	} else if (item.age === 2) {
+				// 		ageCat = "Годa"
+				// 	} else {
+				// 		ageCat = "Лет"
+				// 	}
 					document.querySelector('.popup').classList.add("_active")
 					document.querySelector('.popup__img').setAttribute('src', item.img_link)
 					document.querySelector('.popup__title').innerText = item.name
@@ -89,4 +87,4 @@ function creatingFillingPopup() {
 	}))
 }
 
-creatingFillingPopup()
+//creatingFillingPopup()
