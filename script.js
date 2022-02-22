@@ -9,7 +9,8 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 	let boxcat = localStorage.getItem('storageObjCats')
 	boxcat = JSON.parse(boxcat);
 	console.log(boxcat);
-	
+
+	addCat ()
 	createCatsCards(boxcat)
 	creatingFillingPopup(boxcat)
 	//console.log(objCats[1]);
@@ -20,7 +21,11 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 	
 })
 
-
+ function addCat (){
+	document.querySelector('.header__btn').addEventListener('click', () =>{
+		
+	})
+ }
 
 //document.cookie = `user=Dima; secure; samesite=lax`
 
@@ -104,14 +109,14 @@ function creatingFillingPopup(cats) {
 		}))
 	})
 	// открыть - закрыть popup / Open - Close Popup
-	document.querySelector('.popup').addEventListener('click', (e => {
-		if (e.target.classList.contains("popup") || e.target.classList.contains("popup__close")) {
-			document.querySelector('.popup').classList.remove("_active")
-			document.body.style.overflow = "visible"
-		}
-	}))
+	popupClose ("popup","popup__close")
 }
-
-//localStorage.setItem("boxCat", JSON.sringufy)
-
-//console.log(window.localStorage);
+//  создание фун открыть - закрыть popup / Open - Close Popup
+function popupClose (popup,close) {
+document.querySelector(`.${popup}`).addEventListener('click', (e => {
+	if (e.target.classList.contains(popup) || e.target.classList.contains(close)) {
+		document.querySelector(`.${popup}`).classList.remove("_active")
+		document.body.style.overflow = "visible"
+	}
+}))
+}

@@ -26,6 +26,16 @@ header {
 .header__logo-img {
 }
 
+.header__form{
+
+}
+.header__input{
+	background: green;
+}
+.header__btn{
+	background: green;
+}
+
 .cats__container {
 	max-width: 1000px;
 	padding: 0 15px;
@@ -168,6 +178,62 @@ header {
 	top: 10px;
 	right: 10px;
 }
+
+
+.popup2{
+	width: 100vw;
+	height: 100vh;
+	background: #42404099;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+display: none;
+}
+.popup2__wrapper{
+	width: 410px;
+	height: 500px;
+	background: #fff;
+	border: 1px solid #000;
+	border-radius: 15px;
+
+}
+.popup2__content{
+
+
+}
+.popup2__form{
+	display: flex;
+	flex-direction: column;
+	justify-content:center;
+	align-items: center;
+	gap: 20px;
+	position: relative;
+}
+
+.popup2__name{
+background: green;
+}
+.popup2__age{
+	background: green;
+}
+.popup2__description{
+	background: green;
+}
+.popup2__button{
+	background: green;
+}
+.popup2__close{
+	width: 30px;
+	height: 30px;
+	background: #000;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 
 .footer {
 	margin-top: 50px;
