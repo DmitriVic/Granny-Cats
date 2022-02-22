@@ -3,16 +3,35 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 .then(response => response.json())
 .then(data => {
 	let objCats = data.data.filter(e => typeof e.img_link === "string")
-	//localStorage.setItem("boxCat", JSON.sringufy(objCats))
-	console.log(objCats);
-	createCatsCards(objCats)
-	creatingFillingPopup(objCats)
+	if (!localStorage.getItem('storageObjCats')) {
+		localStorage.setItem("storageObjCats", JSON.stringify(objCats))
+	}
+	let boxcat = localStorage.getItem('storageObjCats')
+	boxcat = JSON.parse(boxcat);
+	console.log(boxcat);
+	
+	createCatsCards(boxcat)
+	creatingFillingPopup(boxcat)
 	//console.log(objCats[1]);
 	console.log(window.localStorage);
+	//console.log(localStorage.getItem('storageObjCats'));
+	
+	//localStorage.clear()
 	
 })
 
 
+
+//document.cookie = `user=Dima; secure; samesite=lax`
+
+// fetch ('https://www.friendforpet.ru/api/sites/default/files/2022-01/%D1%81%D0%B2%D0%B5%D1%82%D0%BB%D1%8F%D1%87%D0%BE%D0%BA4_%D0%B0%D0%BB%D0%B5%D0%BA%D1%81.jpg',
+// {	headers:
+// {	"Referrer Policy": "no-referrer" // не ставить заголовок Referer
+// } })
+// .then(response => console.log(response))
+// fetch ('https://www.friendforpet.ru/api/sites/default/file%E2%80%A62021-09/167200DD-A44F-4845-8D4D-ACCFC180165A.jpeg')
+// .then(resp => console.log(resp.status))
+//.catch(resp => console.log(resp))
 
 //================			Создание карточек с котами/ Creating cards with cats			========================================================================================================================================
 
