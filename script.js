@@ -22,7 +22,7 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 })
 
 
-// Открыть - закрыть попап2 / Open - Close popup2
+// Открыть - закрыть pопап2 / Open - Close popup2
  function addCat (){
 	document.querySelector('.header__btn').addEventListener('click', () =>{
 		document.querySelector('.popup2').classList.add("_active")
@@ -60,7 +60,6 @@ function createCatsCards(cats) {
 }
 
 //========================================================================================================================================================
-
 
 
 //===================			Создание и передача данных в popup / Creating and transferring data to Popup			===================================================================================================================================
@@ -114,6 +113,14 @@ document.querySelector(`.${popup}`).addEventListener('click', (e => {
 	}
 }))
 }
+
+
+
+
+
+
+
+
 
 
 // передать данные из формы / transmit data from the form
