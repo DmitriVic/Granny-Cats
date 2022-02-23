@@ -21,22 +21,16 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 	
 })
 
+
+// Открыть - закрыть попап2 / Open - Close popup2
  function addCat (){
 	document.querySelector('.header__btn').addEventListener('click', () =>{
-		
+		document.querySelector('.popup2').classList.add("_active")
 	})
- }
+	popupClose ("popup2","popup2__close")
+}
 
-//document.cookie = `user=Dima; secure; samesite=lax`
 
-// fetch ('https://www.friendforpet.ru/api/sites/default/files/2022-01/%D1%81%D0%B2%D0%B5%D1%82%D0%BB%D1%8F%D1%87%D0%BE%D0%BA4_%D0%B0%D0%BB%D0%B5%D0%BA%D1%81.jpg',
-// {	headers:
-// {	"Referrer Policy": "no-referrer" // не ставить заголовок Referer
-// } })
-// .then(response => console.log(response))
-// fetch ('https://www.friendforpet.ru/api/sites/default/file%E2%80%A62021-09/167200DD-A44F-4845-8D4D-ACCFC180165A.jpeg')
-// .then(resp => console.log(resp.status))
-//.catch(resp => console.log(resp))
 
 //================			Создание карточек с котами/ Creating cards with cats			========================================================================================================================================
 
@@ -64,7 +58,7 @@ function createCatsCards(cats) {
     }
   });
 }
-//console.log(1 === /\d/);
+
 //========================================================================================================================================================
 
 
@@ -120,3 +114,36 @@ document.querySelector(`.${popup}`).addEventListener('click', (e => {
 	}
 }))
 }
+
+
+// передать данные из формы / transmit data from the form
+function transferDataForms() {
+	document.querySelector('.popup2__form').addEventListener("submit", (e) => {
+		e.preventDefault()
+		let form = document.querySelector('.popup2__form');
+		obj.name = form.elements.name.value;
+		obj.age = form.elements.age.value;
+		obj.description = form.elements.description.value;
+		form.reset()
+	})
+}
+transferDataForms()
+
+// fetch('https://sb-cats.herokuapp.com/api/add', {
+// 	method: "POST",
+// 	headers: {
+// 		'Content-Type': 'application/json' // не ставить заголовок Referer
+// 	},
+// 	body: JSON.stringify(obj)
+// })
+
+obj ={
+	"id": 32167,
+	"name": "Доктор Барсик",
+	"favourite": false,
+	"rate": 7,
+	"age": 5,
+	"description": "Характер скверный, не женат."
+}
+
+
