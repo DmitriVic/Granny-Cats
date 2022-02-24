@@ -8,19 +8,28 @@ fetch("https://sb-cats.herokuapp.com/api/show")
 	}
 	let boxcat = localStorage.getItem('storageObjCats')
 	boxcat = JSON.parse(boxcat);
-	console.log(boxcat);
+	//console.log(boxcat);
 
 	addCat ()
 	createCatsCards(boxcat)
 	creatingFillingPopup(boxcat)
 	//console.log(objCats[1]);
-	console.log(window.localStorage);
+	//console.log(window.localStorage);
 	//console.log(localStorage.getItem('storageObjCats'));
 	
 	//localStorage.clear()
 	
 })
 
+async function f1 (){
+	let res = await fetch("https://sb-cats.herokuapp.com/api/show")
+	 return res.data
+}
+
+
+let ff = f1()
+ console.log(ff);
+//ff.then(res => console.log(res.data))
 
 // Открыть - закрыть pопап2 / Open - Close popup2
  function addCat (){
