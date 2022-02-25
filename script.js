@@ -1,35 +1,95 @@
 
-fetch("https://sb-cats.herokuapp.com/api/show")
-.then(response => response.json())
-.then(data => {
-	let objCats = data.data.filter(e => typeof e.img_link === "string")
-	if (!localStorage.getItem('storageObjCats')) {
-		localStorage.setItem("storageObjCats", JSON.stringify(objCats))
-	}
-	let boxcat = localStorage.getItem('storageObjCats')
-	boxcat = JSON.parse(boxcat);
-	//console.log(boxcat);
+// .filter(e => typeof e.img_link === "string")
+ async function f1() {
+	let resp = await fetch("https://sb-cats.herokuapp.com/api/show")
+		.then(response => response.json())
+		.then((data) => {
+			
+			
+			//getCard(data.data);
+			//let lastId = getCard(data.data)
+			//let lastId = Math.floor(Math.random() * 100)
+			//console.log(lastId);
+			let boxcat = data.data
+			//console.log(boxcat);
 
-	addCat ()
-	createCatsCards(boxcat)
-	creatingFillingPopup(boxcat)
-	//console.log(objCats[1]);
-	//console.log(window.localStorage);
-	//console.log(localStorage.getItem('storageObjCats'));
-	
-	//localStorage.clear()
-	
-})
+			// if (!localStorage.getItem('storageObjCats')) {
+			// 	localStorage.setItem("storageObjCats", JSON.stringify(objCats))
+			// }
 
-async function f1 (){
-	let res = await fetch("https://sb-cats.herokuapp.com/api/show")
-	 return res.data
+			// let boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
+
+			
+			addCat()
+			createCatsCards(boxcat)
+			creatingFillingPopup(boxcat)
+			
+		})
+		
+		 return resp
+}
+f1()
+transferDataForms(Math.floor(Math.random() * 100))
+//transferDataForms(num)
+// передать данные из формы / transmit data from the form
+function transferDataForms(num) {
+	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
+		e.preventDefault();
+		let form = document.querySelector(".popup2__form");
+		if (
+			form.elements.name.value.trim() !== "" &&
+			form.elements.age.value.trim() !== ""
+		) {
+			localStorage.clear();
+			document.querySelector(".cats__container").innerHTML = "";
+			obj.name = form.elements.name.value;
+			obj.age = form.elements.age.value;
+			obj.description = form.elements.description.value;
+			obj.id = num + 1;
+			form.reset();
+			async function myfunc(){
+				await addCatFetch()
+				await f1()
+			}
+			myfunc()
+			// async function f2() {
+			// 	 let a = await addCatFetch();
+			// 	let b = await f1();
+			// }
+			// f2()
+			//f1()
+			console.log(obj);
+		}
+	});
+}
+
+// Запрос добавить карточку кота на сервер
+ async function addCatFetch (){
+		await fetch('https://sb-cats.herokuapp.com/api/add', {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json' // не ставить заголовок Referer
+		},
+		body: JSON.stringify(obj)
+	})
 }
 
 
-let ff = f1()
- console.log(ff);
-//ff.then(res => console.log(res.data))
+
+// получение наибольшего id карточки
+function getCard (arr){
+	let num = 0
+	arr.forEach(e => {
+		if (e.id > num) {
+			num = e.id
+		}
+	})
+	//console.log(num);
+	return num
+}
+
+
+
 
 // Открыть - закрыть pопап2 / Open - Close popup2
  function addCat (){
@@ -38,8 +98,6 @@ let ff = f1()
 	})
 	popupClose ("popup2","popup2__close")
 }
-
-
 
 //================			Создание карточек с котами/ Creating cards with cats			========================================================================================================================================
 
@@ -127,39 +185,24 @@ document.querySelector(`.${popup}`).addEventListener('click', (e => {
 
 
 
+// obj ={
+// 	"id": 32167,
+// 	"name": "Доктор Барсик",
+// 	"age": 5,
+// 	"description": "Характер скверный, не женат."
+// }
 
 
+		// fetch("https://sb-cats.herokuapp.com/api/show")
+		// .then(response => response.json())
 
-
-
-// передать данные из формы / transmit data from the form
-function transferDataForms() {
-	document.querySelector('.popup2__form').addEventListener("submit", (e) => {
-		e.preventDefault()
-		let form = document.querySelector('.popup2__form');
-		obj.name = form.elements.name.value;
-		obj.age = form.elements.age.value;
-		obj.description = form.elements.description.value;
-		form.reset()
-	})
-}
-transferDataForms()
-
-// fetch('https://sb-cats.herokuapp.com/api/add', {
-// 	method: "POST",
-// 	headers: {
-// 		'Content-Type': 'application/json' // не ставить заголовок Referer
-// 	},
-// 	body: JSON.stringify(obj)
-// })
-
-obj ={
-	"id": 32167,
-	"name": "Доктор Барсик",
-	"favourite": false,
-	"rate": 7,
-	"age": 5,
-	"description": "Характер скверный, не женат."
-}
-
-
+		// async function f10 (){
+		// 	fetch("https://sb-cats.herokuapp.com/api/show")
+		// 	.then((res) =>{
+		// 		if (res.ok) {
+		// 			console.log('1111');
+		// 		}
+		// 	})
+			
+		// }
+		// f10()
