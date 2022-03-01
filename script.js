@@ -1,38 +1,67 @@
-
+let lastId = 0
 // .filter(e => typeof e.img_link === "string")
+async function getLastId() {
+	await fetch("https://sb-cats.herokuapp.com/api/show")
+		.then((response) => response.json())
+		.then((data) => {
+			arr = data.data.filter(e => typeof e.img_link === "string")
+			lastId =  getCard(arr);
+			console.log(lastId);
+		});
+}
+getLastId()
+
+// получение наибольшего id карточки
+function getCard (arr){
+	let num = 0
+	arr.forEach(e => {
+		if (e.id > num) {
+			num = e.id
+		}
+	})
+	//console.log(num);
+	return num
+}
+
+
+
+
+
+
  async function f1() {
-	let resp = await fetch("https://sb-cats.herokuapp.com/api/show")
+	await fetch("https://sb-cats.herokuapp.com/api/show")
 		.then(response => response.json())
 		.then((data) => {
-			
-			
 			//getCard(data.data);
-			//let lastId = getCard(data.data)
-			//let lastId = Math.floor(Math.random() * 100)
+			
+			//let lastId =  getCard(data.data, callback)
 			//console.log(lastId);
-			let boxcat = data.data
+			//console.log(data.data);
+			let boxcat = data.data.filter(e => typeof e.img_link === "string")
 			//console.log(boxcat);
 
 			// if (!localStorage.getItem('storageObjCats')) {
 			// 	localStorage.setItem("storageObjCats", JSON.stringify(objCats))
 			// }
-
 			// let boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
 
-			
+			transferDataForms()
 			addCat()
 			createCatsCards(boxcat)
 			creatingFillingPopup(boxcat)
 			
 		})
-		
-		 return resp
 }
 f1()
-transferDataForms(Math.floor(Math.random() * 100))
+
+
+
+
+
+
 //transferDataForms(num)
 // передать данные из формы / transmit data from the form
-function transferDataForms(num) {
+function transferDataForms() {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
@@ -44,20 +73,20 @@ function transferDataForms(num) {
 			document.querySelector(".cats__container").innerHTML = "";
 			obj.name = form.elements.name.value;
 			obj.age = form.elements.age.value;
+			//obj.id = form.elements.id.value;
 			obj.description = form.elements.description.value;
-			obj.id = num + 1;
+			obj.img_link = form.elements.img_link.value;
+			console.log(lastId);
+			obj.id = lastId + 1;
+			lastId++
+			//console.log(lastId);
 			form.reset();
 			async function myfunc(){
 				await addCatFetch()
+				//await getLastId()
 				await f1()
 			}
 			myfunc()
-			// async function f2() {
-			// 	 let a = await addCatFetch();
-			// 	let b = await f1();
-			// }
-			// f2()
-			//f1()
 			console.log(obj);
 		}
 	});
@@ -76,17 +105,6 @@ function transferDataForms(num) {
 
 
 
-// получение наибольшего id карточки
-function getCard (arr){
-	let num = 0
-	arr.forEach(e => {
-		if (e.id > num) {
-			num = e.id
-		}
-	})
-	//console.log(num);
-	return num
-}
 
 
 
@@ -107,6 +125,7 @@ function createCatsCards(cats) {
       ".cats__container"
     ).innerHTML += `	<div class="cats__card card" data-name = "${item.id}">
 		<div class="card__content">
+		<div class="card__del">Del</div>
 			<div class="card__box-img">
 				<img src="${item.img_link}" class="card__img" alt="">
 			</div>
@@ -139,25 +158,29 @@ function creatingFillingPopup(cats) {
 		//console.log(e.getAttribute("data-name"));
 		e.addEventListener('click', (el => {
 			
-			cats.forEach(item => {
-				//console.log(el.currentTarget.getAttribute("data-name"));
-				if (el.currentTarget.getAttribute("data-name") * 1 === item.id) {
-					console.log(el.currentTarget.getAttribute("data-name"));
-					if (item.age === 1) {
-						ageCat = "Год"
-					} else if (item.age === 2 || item.age === 3 || item.age === 4) {
-						ageCat = "Годa"
-					} else {
-						ageCat = "Лет"
+			if (!el.target.classList.contains("card__del")) {
+				cats.forEach(item => {
+					//console.log(el.currentTarget.getAttribute("data-name"));
+					if (el.currentTarget.getAttribute("data-name") * 1 === item.id) {
+						//console.log(el.currentTarget.getAttribute("data-name"));
+						if (item.age === 1) {
+							ageCat = "Год"
+						} else if (item.age === 2 || item.age === 3 || item.age === 4) {
+							ageCat = "Годa"
+						} else {
+							ageCat = "Лет"
+						}
+						document.querySelector('.popup').classList.add("_active")
+						document.querySelector('.popup__img').setAttribute('src', item.img_link)
+						document.querySelector('.popup__title').innerText = item.name
+						document.querySelector('.popup__subtitle').innerText = item.age + " " + ageCat
+						document.querySelector('.popup__text').innerText = item.description
+						document.body.style.overflow = "hidden"
 					}
-					document.querySelector('.popup').classList.add("_active")
-					document.querySelector('.popup__img').setAttribute('src', item.img_link)
-					document.querySelector('.popup__title').innerText = item.name
-					document.querySelector('.popup__subtitle').innerText = item.age + " " + ageCat
-					document.querySelector('.popup__text').innerText = item.description
-					document.body.style.overflow = "hidden"
-				}
-			})
+				})
+			}
+
+			
 		}))
 		// / осветлить рисунок кота при наведении мышы / Lighten the cat drawing when you hover 
 		e.addEventListener('mouseenter', (e => {
@@ -180,6 +203,42 @@ document.querySelector(`.${popup}`).addEventListener('click', (e => {
 	}
 }))
 }
+
+
+document.querySelector(".cats__container").addEventListener('click',(e)=>{
+	if (e.target.classList.contains("card__del")) {
+		let id = e.target.parentNode.parentNode.getAttribute('data-name');
+		console.log(id);
+		//console.log(e.target.parentNode.parentNode);
+		fetch(`https://sb-cats.herokuapp.com/api/delete/${id}`, {
+			method: 'DELETE'
+		})
+		.then(res => {
+			if (res.ok) {
+				console.log(res);
+				return res.json()
+				//f2()
+				
+			}
+			return Promise.reject(res)
+		})
+		.then((data) => {
+			console.log(data.ok);
+			document.querySelector(".cats__container").innerHTML = "";
+		//	if (!data.message === 'ок') {
+			//	console.log('yra');
+				f1()
+			//}
+		})
+		
+	}
+	
+})
+
+
+
+
+
 
 
 
@@ -206,3 +265,28 @@ document.querySelector(`.${popup}`).addEventListener('click', (e => {
 			
 		// }
 		// f10()
+
+		//  function f2() {
+		// 	fetch("https://sb-cats.herokuapp.com/api/show")
+		// 		.then(response => response.json())
+		// 		.then((data) => {
+		// 			//getCard(data.data);
+					
+		// 			//let lastId =  getCard(data.data, callback)
+		// 			//console.log(lastId);
+		// 			//console.log(data.data);
+		// 			let boxcat = data.data.filter(e => typeof e.img_link === "string")
+		// 			//console.log(boxcat);
+		
+		// 			// if (!localStorage.getItem('storageObjCats')) {
+		// 			// 	localStorage.setItem("storageObjCats", JSON.stringify(objCats))
+		// 			// }
+		// 			// let boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
+		
+		// 			transferDataForms()
+		// 			addCat()
+		// 			createCatsCards(boxcat)
+		// 			creatingFillingPopup(boxcat)
+					
+		// 		})
+		// }

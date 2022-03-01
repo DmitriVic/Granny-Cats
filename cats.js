@@ -2,8 +2,9 @@
 obj ={
 	"id": 32167,
 	"name": "Доктор Барсик",
-	"age": 5,
-	"description": "Характер скверный, не женат."
+	"age": "",
+	"description": "Характер скверный, не женат.",
+	"img_link": "https://www.friendforpet.ru/api/sites/default/files/2021-09/167200DD-A44F-4845-8D4D-ACCFC180165A.jpeg"
 }
 
 
