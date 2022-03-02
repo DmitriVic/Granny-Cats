@@ -2,7 +2,21 @@
  const popupСontent2 = document.querySelector('.popup2__content')
  const popup2Button = popupСontent2.querySelector('.popup2__button')
  const popup2Form = document.querySelector(".popup2__form")
+
  const popupTitle = popupСontent.querySelector('.popup__title')
+
+ const popupSubtitle = popupСontent.querySelector('.popup__subtitle')
+ const popupText = popupСontent.querySelector('.popup__text')
+
+
+ const popup2Rate = popupСontent.querySelector('.popup2__rate')
+
+ const popup2ImgLink = popupСontent.querySelector('.popup2__img_link')
+ 
+ 
+ 
+ 
+
  let id = 0
 
 
@@ -69,12 +83,12 @@ f1()
 
 transferDataForms2(editCatFetch)
 
-// передать данные из формы / transmit data from the form
+//передать данные из формы / transmit data from the form
 function transferDataForms2(callback) {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
-		 
+		if (!popup2Form.classList.contains("_add")) {
 			obj.name = form.elements.name.value;
 			obj.age = form.elements.age.value;
 			//obj.id = form.elements.id.value;
@@ -85,8 +99,9 @@ function transferDataForms2(callback) {
 			// obj.id = lastId + 1;
 			// lastId++
 			form.reset();
+			console.log("transferDataForms2");
 			callback()
-		
+		}
 	});
 }
 
@@ -102,6 +117,7 @@ async function editCatFetch (){
 	localStorage.clear();
 	document.querySelector(".cats__container").innerHTML = "";
 	f1()
+	console.log('editCatFetch');
 })
 }
 
@@ -113,8 +129,9 @@ async function editCatFetch (){
 function transferDataForms(callback) {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
+		let form = document.querySelector(".popup2__form");
 		if (popup2Form.classList.contains("_add")) {
-			let form = document.querySelector(".popup2__form");
+			
 		if (
 			form.elements.name.value.trim() !== "" &&
 			form.elements.age.value.trim() !== ""
@@ -132,6 +149,15 @@ function transferDataForms(callback) {
 			callback()
 			//addCatFetch()
 		}
+		} else {
+			// obj.name = form.elements.name.value;
+			// obj.age = form.elements.age.value;
+			// //obj.id = form.elements.id.value;
+			// obj.description = form.elements.description.value;
+			// obj.rate = form.elements.rate.value;
+			// obj.img_link = form.elements.img_link.value;
+			// form.reset();
+			// editCatFetch ()
 		}
 		
 	});
@@ -296,6 +322,16 @@ popupСontent.querySelector('.popup__edit').addEventListener("click", ()=>{
 	popup2Form.classList.remove("_add")
 	let form = document.querySelector(".popup2__form");
 	form.elements.name.value = popupTitle.innerText;
+	 form.elements.age.value = popupSubtitle.innerText;
+	// form.elements.rate.value = popup2Rate.innerText;
+	 form.elements.description.value = popupText.innerText;
+	// form.elements.img_link.value = popup2ImgLink.innerText;
+
+	
+	
+
+
+ 
 			
 			// obj.age = form.elements.age.value;
 			// //obj.id = form.elements.id.value;
