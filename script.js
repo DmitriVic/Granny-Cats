@@ -2,7 +2,8 @@
  const popupСontent2 = document.querySelector('.popup2__content')
  const popup2Button = popupСontent2.querySelector('.popup2__button')
  const popup2Form = document.querySelector(".popup2__form")
- const id = 0
+ const popupTitle = popupСontent.querySelector('.popup__title')
+ let id = 0
 
 
 
@@ -66,31 +67,48 @@ f1()
 
 
 
-
+transferDataForms2(editCatFetch)
 
 // передать данные из формы / transmit data from the form
 function transferDataForms2(callback) {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
-		if (
-			form.elements.name.value.trim() !== "" &&
-			form.elements.age.value.trim() !== ""
-		) {
+		 
 			obj.name = form.elements.name.value;
 			obj.age = form.elements.age.value;
 			//obj.id = form.elements.id.value;
 			obj.description = form.elements.description.value;
+			obj.rate = form.elements.rate.value;
 			obj.img_link = form.elements.img_link.value;
-			console.log(lastId);
-			obj.id = lastId + 1;
-			lastId++
+			// console.log(lastId);
+			// obj.id = lastId + 1;
+			// lastId++
 			form.reset();
 			callback()
-			//addCatFetch()
-		}
+		
 	});
 }
+
+async function editCatFetch (){
+	await fetch(`https://sb-cats.herokuapp.com/api/update/${id}`, {
+	method: "PUT",
+	headers: {
+		'Content-Type': 'application/json' // не ставить заголовок Referer
+	},
+	body: JSON.stringify(obj)
+})
+.then(() =>{
+	localStorage.clear();
+	document.querySelector(".cats__container").innerHTML = "";
+	f1()
+})
+}
+
+
+
+
+
 
 function transferDataForms(callback) {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
@@ -106,6 +124,7 @@ function transferDataForms(callback) {
 			//obj.id = form.elements.id.value;
 			obj.description = form.elements.description.value;
 			obj.img_link = form.elements.img_link.value;
+			obj.rate = form.elements.rate.value;
 			console.log(lastId);
 			obj.id = lastId + 1;
 			lastId++
@@ -208,8 +227,8 @@ function creatingFillingPopup(cats) {
 						document.querySelector('.popup__text').innerText = item.description
 						document.body.style.overflow = "hidden"
 						//console.log(el.currentTarget.getAttribute("data-name"));
-						let id = el.currentTarget.getAttribute("data-name");
-						//console.log(id);
+						id = el.currentTarget.getAttribute("data-name");
+						console.log(id);
 					}
 				})
 			}
@@ -275,7 +294,14 @@ function deleteCat(e){
 popupСontent.querySelector('.popup__edit').addEventListener("click", ()=>{
 	popup2Button.innerText = 'Редактировать'
 	popup2Form.classList.remove("_add")
-	
+	let form = document.querySelector(".popup2__form");
+	form.elements.name.value = popupTitle.innerText;
+			
+			// obj.age = form.elements.age.value;
+			// //obj.id = form.elements.id.value;
+			// obj.description = form.elements.description.value;
+			// obj.rate = form.elements.rate.value;
+			// obj.img_link = form.elements.img_link.value;
 })
 
 popup2('.popup__edit')
