@@ -10,7 +10,6 @@
 
 
  const popup2Rate = popupСontent.querySelector('.popup2__rate')
-
  const popup2ImgLink = popupСontent.querySelector('.popup2__img_link')
  
  
@@ -23,19 +22,19 @@
 
 let lastId = 0
 // .filter(e => typeof e.img_link === "string")
-async function getLastId() {
-	await fetch("https://sb-cats.herokuapp.com/api/show")
-		.then((response) => response.json())
-		.then((data) => {
-			arr = data.data.filter(e => typeof e.img_link === "string")
-			lastId =  getCard(arr);
-			console.log(lastId);
-		});
-}
-getLastId()
+// async function getLastId() {
+// 	await fetch("https://sb-cats.herokuapp.com/api/show")
+// 		.then((response) => response.json())
+// 		.then((data) => {
+// 			arr = data.data.filter(e => typeof e.img_link === "string")
+// 			lastId =  getCard(arr);
+// 			console.log(lastId);
+// 		});
+// }
+//getLastId()
 
 // получение наибольшего id карточки
-function getCard (arr){
+function getLastId (arr){
 	let num = 0
 	arr.forEach(e => {
 		if (e.id > num) {
@@ -60,15 +59,16 @@ function getCard (arr){
 			//let lastId =  getCard(data.data, callback)
 			//console.log(lastId);
 			//console.log(data.data);
+      lastId = getLastId(data.data)
 			let boxcat = data.data.filter(e => typeof e.img_link === "string")
 			//console.log(boxcat);
-
+      
 			// if (!localStorage.getItem('storageObjCats')) {
 			// 	localStorage.setItem("storageObjCats", JSON.stringify(objCats))
 			// }
 			// let boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
 
-			transferDataForms(addCatFetch)
+			transferDataForms()
 			popup2('.header__btn')
 			createCatsCards(boxcat)
 			creatingFillingPopup(boxcat)
@@ -81,10 +81,10 @@ f1()
 
 
 
-transferDataForms2(editCatFetch)
+transferDataForms2()
 
 //передать данные из формы / transmit data from the form
-function transferDataForms2(callback) {
+function transferDataForms2() {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
@@ -100,7 +100,7 @@ function transferDataForms2(callback) {
 			// lastId++
 			form.reset();
 			console.log("transferDataForms2");
-			callback()
+			editCatFetch ()
 		}
 	});
 }
@@ -126,7 +126,7 @@ async function editCatFetch (){
 
 
 
-function transferDataForms(callback) {
+function transferDataForms() {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
@@ -146,20 +146,10 @@ function transferDataForms(callback) {
 			obj.id = lastId + 1;
 			lastId++
 			form.reset();
-			callback()
+			addCatFetch ()
 			//addCatFetch()
 		}
-		} else {
-			// obj.name = form.elements.name.value;
-			// obj.age = form.elements.age.value;
-			// //obj.id = form.elements.id.value;
-			// obj.description = form.elements.description.value;
-			// obj.rate = form.elements.rate.value;
-			// obj.img_link = form.elements.img_link.value;
-			// form.reset();
-			// editCatFetch ()
-		}
-		
+		} 
 	});
 }
 
