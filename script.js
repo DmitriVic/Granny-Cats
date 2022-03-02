@@ -1,3 +1,11 @@
+ const popupСontent = document.querySelector('.popup__content')
+ const popupСontent2 = document.querySelector('.popup2__content')
+ const popup2Button = popupСontent2.querySelector('.popup2__button')
+ const popup2Form = document.querySelector(".popup2__form")
+ const id = 0
+
+
+
 let lastId = 0
 // .filter(e => typeof e.img_link === "string")
 async function getLastId() {
@@ -45,8 +53,8 @@ function getCard (arr){
 			// }
 			// let boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
 
-			transferDataForms()
-			addCat()
+			transferDataForms(addCatFetch)
+			popup2('.header__btn')
 			createCatsCards(boxcat)
 			creatingFillingPopup(boxcat)
 			
@@ -59,9 +67,9 @@ f1()
 
 
 
-//transferDataForms(num)
+
 // передать данные из формы / transmit data from the form
-function transferDataForms() {
+function transferDataForms2(callback) {
 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
@@ -69,8 +77,6 @@ function transferDataForms() {
 			form.elements.name.value.trim() !== "" &&
 			form.elements.age.value.trim() !== ""
 		) {
-			localStorage.clear();
-			document.querySelector(".cats__container").innerHTML = "";
 			obj.name = form.elements.name.value;
 			obj.age = form.elements.age.value;
 			//obj.id = form.elements.id.value;
@@ -79,16 +85,36 @@ function transferDataForms() {
 			console.log(lastId);
 			obj.id = lastId + 1;
 			lastId++
-			//console.log(lastId);
 			form.reset();
-			async function myfunc(){
-				await addCatFetch()
-				//await getLastId()
-				await f1()
-			}
-			myfunc()
-			console.log(obj);
+			callback()
+			//addCatFetch()
 		}
+	});
+}
+
+function transferDataForms(callback) {
+	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
+		e.preventDefault();
+		if (popup2Form.classList.contains("_add")) {
+			let form = document.querySelector(".popup2__form");
+		if (
+			form.elements.name.value.trim() !== "" &&
+			form.elements.age.value.trim() !== ""
+		) {
+			obj.name = form.elements.name.value;
+			obj.age = form.elements.age.value;
+			//obj.id = form.elements.id.value;
+			obj.description = form.elements.description.value;
+			obj.img_link = form.elements.img_link.value;
+			console.log(lastId);
+			obj.id = lastId + 1;
+			lastId++
+			form.reset();
+			callback()
+			//addCatFetch()
+		}
+		}
+		
 	});
 }
 
@@ -101,6 +127,11 @@ function transferDataForms() {
 		},
 		body: JSON.stringify(obj)
 	})
+	.then(() =>{
+		localStorage.clear();
+		document.querySelector(".cats__container").innerHTML = "";
+		f1()
+	})
 }
 
 
@@ -110,8 +141,8 @@ function transferDataForms() {
 
 
 // Открыть - закрыть pопап2 / Open - Close popup2
- function addCat (){
-	document.querySelector('.header__btn').addEventListener('click', () =>{
+ function popup2 (findClass){
+	document.querySelector(findClass).addEventListener('click', () =>{
 		document.querySelector('.popup2').classList.add("_active")
 	})
 	popupClose ("popup2","popup2__close")
@@ -176,10 +207,12 @@ function creatingFillingPopup(cats) {
 						document.querySelector('.popup__subtitle').innerText = item.age + " " + ageCat
 						document.querySelector('.popup__text').innerText = item.description
 						document.body.style.overflow = "hidden"
+						//console.log(el.currentTarget.getAttribute("data-name"));
+						let id = el.currentTarget.getAttribute("data-name");
+						//console.log(id);
 					}
 				})
 			}
-
 			
 		}))
 		// / осветлить рисунок кота при наведении мышы / Lighten the cat drawing when you hover 
@@ -194,52 +227,60 @@ function creatingFillingPopup(cats) {
 	// открыть - закрыть popup / Open - Close Popup
 	popupClose ("popup","popup__close")
 }
+
+
 //  создание фун открыть - закрыть popup / Open - Close Popup
 function popupClose (popup,close) {
 document.querySelector(`.${popup}`).addEventListener('click', (e => {
 	if (e.target.classList.contains(popup) || e.target.classList.contains(close)) {
 		document.querySelector(`.${popup}`).classList.remove("_active")
 		document.body.style.overflow = "visible"
+		popup2Button.innerText = 'Создать'
+		popup2Form.classList.add("_add")
 	}
 }))
 }
 
 
+
+
 document.querySelector(".cats__container").addEventListener('click',(e)=>{
 	if (e.target.classList.contains("card__del")) {
-		let id = e.target.parentNode.parentNode.getAttribute('data-name');
-		console.log(id);
+		if (confirm('Отпустить котика погулять с волками')) {
+			deleteCat(e)
+		} 
+		
 		//console.log(e.target.parentNode.parentNode);
-		fetch(`https://sb-cats.herokuapp.com/api/delete/${id}`, {
+		
+	}
+})
+// удаляем кота
+function deleteCat(e){
+	let id = e.target.parentNode.parentNode.getAttribute('data-name');
+	fetch(`https://sb-cats.herokuapp.com/api/delete/${id}`, {
 			method: 'DELETE'
 		})
 		.then(res => {
 			if (res.ok) {
-				console.log(res);
-				return res.json()
-				//f2()
-				
-			}
-			return Promise.reject(res)
-		})
-		.then((data) => {
-			console.log(data.ok);
-			document.querySelector(".cats__container").innerHTML = "";
-		//	if (!data.message === 'ок') {
-			//	console.log('yra');
+				document.querySelector(".cats__container").innerHTML = "";
 				f1()
-			//}
+			}
+			//return Promise.reject(res)
 		})
-		
-	}
+}
+
+
+
+
+popupСontent.querySelector('.popup__edit').addEventListener("click", ()=>{
+	popup2Button.innerText = 'Редактировать'
+	popup2Form.classList.remove("_add")
 	
 })
 
+popup2('.popup__edit')
 
-
-
-
-
+//popup2('.popup__edit')
 
 
 

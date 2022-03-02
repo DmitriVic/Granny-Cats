@@ -194,7 +194,7 @@ right: 15px
 	width: 100vw;
 	height: 100vh;
 	background: #42404099;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	display: flex;
