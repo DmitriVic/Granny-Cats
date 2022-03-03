@@ -1,7 +1,10 @@
+ 
+ const elemPopup2 = document.querySelector('.popup2')
  const popupСontent = document.querySelector('.popup__content')
  const popupСontent2 = document.querySelector('.popup2__content')
  const popup2Button = popupСontent2.querySelector('.popup2__button')
  const popup2Form = document.querySelector(".popup2__form")
+ const popupImg = document.querySelector(".popup__img")
 
  const popupTitle = popupСontent.querySelector('.popup__title')
 
@@ -15,7 +18,7 @@
  
  
  
-
+let rate = 0
  let id = 0
 
 
@@ -89,18 +92,18 @@ function transferDataForms2() {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
 		if (!popup2Form.classList.contains("_add")) {
-			obj.name = form.elements.name.value;
-			obj.age = form.elements.age.value;
-			//obj.id = form.elements.id.value;
-			obj.description = form.elements.description.value;
-			obj.rate = form.elements.rate.value;
-			obj.img_link = form.elements.img_link.value;
-			// console.log(lastId);
-			// obj.id = lastId + 1;
-			// lastId++
+			
+				obj.name = form.elements.name.value;
+				obj.description = form.elements.description.value;
+				obj.age = form.elements.age.value;
+				obj.rate = form.elements.rate.value;
+				obj.img_link = form.elements.img_link.value;
+			
+			 console.log(obj);
 			form.reset();
 			console.log("transferDataForms2");
 			editCatFetch ()
+			elemPopup2.classList.remove('_active')
 		}
 	});
 }
@@ -134,11 +137,13 @@ function transferDataForms() {
 			
 		if (
 			form.elements.name.value.trim() !== "" &&
-			form.elements.age.value.trim() !== ""
+			form.elements.age.value.trim() !== "" &&
+			form.elements.description.value.trim() !== "" &&
+			form.elements.img_link.value.trim() !== "" &&
+			form.elements.rate.value.trim() !== "" 
 		) {
 			obj.name = form.elements.name.value;
 			obj.age = form.elements.age.value;
-			//obj.id = form.elements.id.value;
 			obj.description = form.elements.description.value;
 			obj.img_link = form.elements.img_link.value;
 			obj.rate = form.elements.rate.value;
@@ -147,7 +152,7 @@ function transferDataForms() {
 			lastId++
 			form.reset();
 			addCatFetch ()
-			//addCatFetch()
+			elemPopup2.classList.remove('_active')
 		}
 		} 
 	});
@@ -189,7 +194,7 @@ function createCatsCards(cats) {
   cats.forEach(function (item, index) {
     document.querySelector(
       ".cats__container"
-    ).innerHTML += `	<div class="cats__card card" data-name = "${item.id}">
+    ).innerHTML += `	<div class="cats__card card" data-name = "${item.id}" data-rate = "${item.rate}">
 		<div class="card__content">
 		<div class="card__del">Del</div>
 			<div class="card__box-img">
@@ -244,7 +249,9 @@ function creatingFillingPopup(cats) {
 						document.body.style.overflow = "hidden"
 						//console.log(el.currentTarget.getAttribute("data-name"));
 						id = el.currentTarget.getAttribute("data-name");
+						rate = el.currentTarget.getAttribute("data-rate");
 						console.log(id);
+						console.log(rate);
 					}
 				})
 			}
@@ -307,16 +314,16 @@ function deleteCat(e){
 
 
 
-popupСontent.querySelector('.popup__edit').addEventListener("click", ()=>{
+popupСontent.querySelector('.popup__edit').addEventListener("click", (e)=>{
 	popup2Button.innerText = 'Редактировать'
 	popup2Form.classList.remove("_add")
 	let form = document.querySelector(".popup2__form");
 	form.elements.name.value = popupTitle.innerText;
-	 form.elements.age.value = popupSubtitle.innerText;
-	// form.elements.rate.value = popup2Rate.innerText;
+	 form.elements.age.value = parseInt(popupSubtitle.innerText.match(/\d+/)) 
 	 form.elements.description.value = popupText.innerText;
-	// form.elements.img_link.value = popup2ImgLink.innerText;
-
+	form.elements.img_link.value = popupImg.getAttribute('src');
+	form.elements.rate.value = rate
+	//console.log(e.currentTarget);
 	
 	
 
