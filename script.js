@@ -76,45 +76,45 @@ main()
 
 
 //передать данные из формы редактирования / transmit data from the form
-// function transferDataEditForm() {
-// 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
-// 		e.preventDefault();
-// 		let form = document.querySelector(".popup2__form");
-// 		if (!popup2Form.classList.contains("_add")) {
+function transferDataEditForm() {
+	document.querySelector(".popup3__form").addEventListener("submit", (e) => {
+		e.preventDefault();
+		let form = document.querySelector(".popup3__form");
+		
 			
-// 				obj.name = form.elements.name.value;
-// 				obj.description = form.elements.description.value;
-// 				obj.age = form.elements.age.value;
-// 				obj.rate = form.elements.rate.value;
-// 				obj.img_link = form.elements.img_link.value;
+				obj.name = form.elements.name.value;
+				obj.description = form.elements.description.value;
+				obj.age = form.elements.age.value;
+				obj.rate = form.elements.rate.value;
+				obj.img_link = form.elements.img_link.value;
 				
-// 			 //console.log(obj);
-// 			form.reset();
-// 			//console.log("transferDataEditForm");
-// 			editCatFetch ()
-// 			elemPopup2.classList.remove('_active')
-// 			popup.classList.remove("_active")
-// 		}
-// 	});
-// }
+			 //console.log(obj);
+			form.reset();
+			//console.log("transferDataEditForm");
+			editCatFetch ()
+			elemPopup2.classList.remove('_active')
+			popup.classList.remove("_active")
+		
+	});
+}
 // // Запрос редактировать карточку кота на сервере
-// async function editCatFetch (){
-// 	await fetch(`https://sb-cats.herokuapp.com/api/update/${id}`, {
-// 	method: "PUT",
-// 	headers: {
-// 		'Content-Type': 'application/json' // не ставить заголовок Referer
-// 	},
-// 	body: JSON.stringify(obj)
-// })
-// .then(() =>{
-// 	localStorage.clear();
-// 	document.querySelector(".cats__container").innerHTML = "";
-// 	main()
-// 	console.log('editCatFetch');
-// })
-// }
+async function editCatFetch (){
+	await fetch(`https://sb-cats.herokuapp.com/api/update/${id}`, {
+	method: "PUT",
+	headers: {
+		'Content-Type': 'application/json' // не ставить заголовок Referer
+	},
+	body: JSON.stringify(obj)
+})
+.then(() =>{
+	localStorage.clear();
+	document.querySelector(".cats__container").innerHTML = "";
+	main()
+	console.log('editCatFetch');
+})
+}
 
-//transferDataEditForm()
+transferDataEditForm()
 
 
 
@@ -261,6 +261,15 @@ function popup2 (findClass){
 	popupClose ("popup2","popup2__close")
 }
 
+// создание фун - закрыть pопап3 / Open - Close popup3
+// function popup3 (findClass){
+// 	document.querySelector(findClass).addEventListener('click', () =>{
+// 		document.querySelector('.popup2').classList.add("_active")
+// 	})
+// 	popupClose ("popup3","popup3__close")
+// }
+
+
 
 
 //  создание фун открыть - закрыть popup / Open - Close Popup
@@ -309,16 +318,18 @@ function deleteCat(e){
 
 // модифицируем popup2 для редактирования
 popupСontent.querySelector('.popup__edit').addEventListener("click", (e)=>{
-	popup2Button.innerText = 'Редактировать'
-	popup2Form.classList.remove("_add")
+	document.querySelector('.popup3').classList.add("_active")
 	let form = document.querySelector(".popup3__form");
 	form.elements.name.value = popupTitle.innerText;
+	console.log(form.elements.name.value );
 	 form.elements.age.value = parseInt(popupSubtitle.innerText.match(/\d+/)) 
 	 form.elements.description.value = popupText.innerText;
 	form.elements.img_link.value = popupImg.getAttribute('src');
 	form.elements.rate.value = rate
+	popupClose ("popup3","popup3__close")
+
 })
-popup2('.popup__edit')
+// popup3('.popup__edit')
 
 
 // обновить по кнопке в шапке
