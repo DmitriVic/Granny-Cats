@@ -41,7 +41,7 @@ function getLastId (arr){
 
 
 
-
+// обновить данные на сервере и localStorage
  async function main() {
 	await fetch("https://sb-cats.herokuapp.com/api/show")
 		.then(response => response.json())
@@ -51,16 +51,16 @@ function getLastId (arr){
 			//let lastId =  getCard(data.data, callback)
 			//console.log(lastId);
 			//console.log(data.data);
-      lastId = getLastId(data.data)
+      	lastId = getLastId(data.data)
 			let boxcat = data.data.filter(e => typeof e.img_link === "string" && typeof e.id === "number")
 			//console.log(boxcat);
       
-			//  if (!localStorage.getItem('storageObjCats')) {
-			// 	localStorage.setItem("storageObjCats", JSON.stringify(boxcat))
-			//  }
-			// boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
+			 if (!localStorage.getItem('storageObjCats')) {
+				localStorage.setItem("storageObjCats", JSON.stringify(boxcat))
+			 }
+			boxcat = JSON.parse(localStorage.getItem('storageObjCats'));
 
-			transferDataForms()
+			// transferDataForms()
 			popup2('.header__btn')
 			createCatsCards(boxcat)
 			creatingFillingPopup(boxcat)
@@ -73,48 +73,48 @@ main()
 
 
 
-transferDataForms2()
 
-//передать данные из формы / transmit data from the form
-function transferDataForms2() {
-	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
-		e.preventDefault();
-		let form = document.querySelector(".popup2__form");
-		if (!popup2Form.classList.contains("_add")) {
+
+//передать данные из формы редактирования / transmit data from the form
+// function transferDataEditForm() {
+// 	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
+// 		e.preventDefault();
+// 		let form = document.querySelector(".popup2__form");
+// 		if (!popup2Form.classList.contains("_add")) {
 			
-				obj.name = form.elements.name.value;
-				obj.description = form.elements.description.value;
-				obj.age = form.elements.age.value;
-				obj.rate = form.elements.rate.value;
-				obj.img_link = form.elements.img_link.value;
+// 				obj.name = form.elements.name.value;
+// 				obj.description = form.elements.description.value;
+// 				obj.age = form.elements.age.value;
+// 				obj.rate = form.elements.rate.value;
+// 				obj.img_link = form.elements.img_link.value;
 				
-			 console.log(obj);
-			form.reset();
-			console.log("transferDataForms2");
-			editCatFetch ()
-			elemPopup2.classList.remove('_active')
-			popup.classList.remove("_active")
-		}
-	});
-}
+// 			 //console.log(obj);
+// 			form.reset();
+// 			//console.log("transferDataEditForm");
+// 			editCatFetch ()
+// 			elemPopup2.classList.remove('_active')
+// 			popup.classList.remove("_active")
+// 		}
+// 	});
+// }
+// // Запрос редактировать карточку кота на сервере
+// async function editCatFetch (){
+// 	await fetch(`https://sb-cats.herokuapp.com/api/update/${id}`, {
+// 	method: "PUT",
+// 	headers: {
+// 		'Content-Type': 'application/json' // не ставить заголовок Referer
+// 	},
+// 	body: JSON.stringify(obj)
+// })
+// .then(() =>{
+// 	localStorage.clear();
+// 	document.querySelector(".cats__container").innerHTML = "";
+// 	main()
+// 	console.log('editCatFetch');
+// })
+// }
 
-async function editCatFetch (){
-	await fetch(`https://sb-cats.herokuapp.com/api/update/${id}`, {
-	method: "PUT",
-	headers: {
-		'Content-Type': 'application/json' // не ставить заголовок Referer
-	},
-	body: JSON.stringify(obj)
-})
-.then(() =>{
-	localStorage.clear();
-	document.querySelector(".cats__container").innerHTML = "";
-	main()
-	console.log('editCatFetch');
-})
-}
-
-
+//transferDataEditForm()
 
 
 
@@ -164,7 +164,7 @@ function transferDataForms() {
 	})
 }
 
-
+transferDataForms()
 
 
 
@@ -199,7 +199,6 @@ function createCatsCards(cats) {
   });
 }
 
-//========================================================================================================================================================
 
 
 //===================			Создание и передача данных в popup / Creating and transferring data to Popup			===================================================================================================================================
@@ -233,8 +232,8 @@ function creatingFillingPopup(cats) {
 						//console.log(el.currentTarget.getAttribute("data-name"));
 						id = el.currentTarget.getAttribute("data-name");
 						rate = el.currentTarget.getAttribute("data-rate");
-						console.log(id);
-						console.log(rate);
+						console.log("id" +" "+ id);
+						console.log("rate" +" "+ rate);
 					}
 				})
 			}
@@ -254,13 +253,15 @@ function creatingFillingPopup(cats) {
 }
 
 
-// Открыть - закрыть pопап2 / Open - Close popup2
+// создание фун - закрыть pопап2 / Open - Close popup2
 function popup2 (findClass){
 	document.querySelector(findClass).addEventListener('click', () =>{
 		document.querySelector('.popup2').classList.add("_active")
 	})
 	popupClose ("popup2","popup2__close")
 }
+
+
 
 //  создание фун открыть - закрыть popup / Open - Close Popup
 function popupClose (popup,close) {
@@ -277,6 +278,7 @@ document.querySelector(`.${popup}`).addEventListener('click', (e => {
 
 
 
+// удаляем кота на сервере
 popupСontent.addEventListener('click',(e)=>{
 	if (e.target.classList.contains("popup__del")) {
 		if (confirm('Отпустить котика погулять с волками')) {
@@ -288,7 +290,6 @@ popupСontent.addEventListener('click',(e)=>{
 		
 	}
 })
-// удаляем кота на сервере
 function deleteCat(e){
 	//let id = e.target.parentNode.parentNode.getAttribute('data-name');
 	fetch(`https://sb-cats.herokuapp.com/api/delete/${id}`, {
@@ -306,21 +307,26 @@ function deleteCat(e){
 
 
 
-
+// модифицируем popup2 для редактирования
 popupСontent.querySelector('.popup__edit').addEventListener("click", (e)=>{
 	popup2Button.innerText = 'Редактировать'
 	popup2Form.classList.remove("_add")
-	let form = document.querySelector(".popup2__form");
+	let form = document.querySelector(".popup3__form");
 	form.elements.name.value = popupTitle.innerText;
 	 form.elements.age.value = parseInt(popupSubtitle.innerText.match(/\d+/)) 
 	 form.elements.description.value = popupText.innerText;
 	form.elements.img_link.value = popupImg.getAttribute('src');
 	form.elements.rate.value = rate
 })
-
 popup2('.popup__edit')
 
 
+// обновить по кнопке в шапке
+document.querySelector('.header__btn-refresh').addEventListener('click', () => {
+	localStorage.clear();
+	document.querySelector(".cats__container").innerHTML = "";
+	main()
+})
 
 
 
