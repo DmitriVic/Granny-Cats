@@ -73,11 +73,7 @@ header {
 	justify-content: space-evenly;
 	position: relative;
 }
-.card__del{
-position: absolute;
-top: 5px;
-right: 15px
-}
+
 .card__box-img {
 	width: 240px;
 	height: 150px;
@@ -183,12 +179,22 @@ right: 15px
 }
 .popup__edit {
 	position: absolute;
-	top: 56px;
+	top: 60px;
 	right: 15px;
 	font-size: 20px;
 	cursor: pointer;
 }
 
+.popup__del{
+	position: absolute;
+	top: 90px;
+	right: 20px;
+	cursor: pointer;
+	height: 24px;
+	width: 24px;
+	background: url('img/icons8-мусор.svg')no-repeat ;
+	
+	}
 
 .popup2{
 	width: 100vw;
