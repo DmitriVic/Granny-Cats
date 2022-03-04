@@ -87,12 +87,13 @@ function transferDataForms2() {
 				obj.age = form.elements.age.value;
 				obj.rate = form.elements.rate.value;
 				obj.img_link = form.elements.img_link.value;
-			
+				
 			 console.log(obj);
 			form.reset();
 			console.log("transferDataForms2");
 			editCatFetch ()
 			elemPopup2.classList.remove('_active')
+			popup.classList.remove("_active")
 		}
 	});
 }
@@ -289,7 +290,7 @@ popupСontent.addEventListener('click',(e)=>{
 })
 // удаляем кота на сервере
 function deleteCat(e){
-	let id = e.target.parentNode.parentNode.getAttribute('data-name');
+	//let id = e.target.parentNode.parentNode.getAttribute('data-name');
 	fetch(`https://sb-cats.herokuapp.com/api/delete/${id}`, {
 			method: 'DELETE'
 		})
