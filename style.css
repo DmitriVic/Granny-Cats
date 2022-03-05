@@ -391,3 +391,11 @@ header {
 		right: 5px;
 	}
 }
+
+@media (max-width: 480px) {
+
+.header__text {
+	display: none;
+	
+}
+}
