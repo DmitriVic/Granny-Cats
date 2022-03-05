@@ -5,6 +5,8 @@ header {
 	position: fixed;
 	right: 0;
 	left: 0;
+	background-color: rgba(255, 255, 255,0.7);
+	z-index: 1;
 }
 
 .header__container {
@@ -27,6 +29,7 @@ header {
 	text-align: center;
 	
 }
+
 .header__logo-img {
 }
 
@@ -264,7 +267,7 @@ header {
 
 
 
-.popup3 {
+/* .popup3 {
 	width: 100vw;
 	height: 100vh;
 	background: #42404099;
@@ -317,7 +320,7 @@ header {
 	top: 8px;
 	right: 16px;
 	cursor: pointer;
-}
+} */
 
 ._active {
 	display: flex;
@@ -390,4 +393,11 @@ header {
 		top: 0px;
 		right: 5px;
 	}
+}
+
+@media (max-width: 480px) {
+.header__text {
+	display: none;
+	
+}
 }
