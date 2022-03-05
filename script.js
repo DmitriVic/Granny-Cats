@@ -1,6 +1,9 @@
 
 const headerBtn = document.querySelector(".header__btn")
 
+const popup3 = document.querySelector(".popup3")
+const popup3Form = document.querySelector(".popup3__form")
+
 const popup = document.querySelector('.popup')
 const elemPopup2 = document.querySelector('.popup2')
 const popupСontent = document.querySelector('.popup__content')
@@ -72,7 +75,7 @@ function getLastId (arr){
 }
 main()
 
-			transferDataForms()
+			
 
 			//transferDataEditForm()
 
@@ -82,9 +85,9 @@ main()
 
 //передать данные из формы редактирования / transmit data from the form
 function transferDataEditForm() {
-	document.querySelector("._edit").addEventListener("submit", (e) => {
+	document.querySelector(".popup3__form").addEventListener("submit", (e) => {
 		e.preventDefault();
-		let form = document.querySelector(".popup2__form");
+		let form = document.querySelector(".popup3__form");
 		//if (!popup2Form.classList.contains("_add")) {
 				obj.id = id
 				obj.name = form.elements.name.value;
@@ -98,7 +101,8 @@ function transferDataEditForm() {
 			//console.log("transferDataEditForm");
 			document.querySelector(".cats__container").innerHTML = "";
 			editCatFetch ()
-			elemPopup2.classList.remove('_active')
+			//elemPopup2.classList.remove('_active')
+			popup3.classList.remove("_active")
 			popup.classList.remove("_active")
 			document.body.style.overflow ="visible"
 		//}
@@ -121,13 +125,13 @@ async function editCatFetch (){
 })
 }
 
-
+transferDataEditForm()
 
 
 
 
 function transferDataForms() {
-	document.querySelector("._add").addEventListener("submit", (e) => {
+	document.querySelector(".popup2__form").addEventListener("submit", (e) => {
 		e.preventDefault();
 		let form = document.querySelector(".popup2__form");
 		//if (popup2Form.classList.contains("_add")) {
@@ -288,16 +292,7 @@ function deleteCat(e){
 			//return Promise.reject(res)
 		})
 }
-// popupClose ("popup","popup__close")
 
-// // создание фун - закрыть pопап2 / Open - Close popup2
-// function popup2 (findClass){
-// 	document.querySelector(findClass).addEventListener('click', () =>{
-// 		document.querySelector('.popup2').classList.add("_active")
-// 	})
-// 	popupClose ("popup2","popup2__close")
-// }
-// popup2('.popup__edit')
 
 
 //  создание фун открыть - закрыть popup / Open - Close Popup
@@ -325,19 +320,27 @@ function popupClose2 () {
 }
 popupClose2 ()
 
+function popupClose3 () {
+	popup3.addEventListener('click', (e => {
+	if (e.target.classList.contains("popup3") || e.target.classList.contains('popup3__close')) {
+		popup3.classList.remove("_active")
+		document.body.style.overflow = "visible"
+	}
+}))
+}
 
-
+popupClose3 ()
 
 
 
 
 // модифицируем popup2 для редактирования
 popupСontent.querySelector('.popup__edit').addEventListener("click", (e)=>{
-	elemPopup2.classList.add('_active')
-	popup2Button.innerText = 'Редактировать'
-	elemPopup2.classList.remove("_add")
-	elemPopup2.classList.add('_edit')
-	let form = document.querySelector(".popup2__form");
+	popup3.classList.add('_active')
+	document.body.style.overflow = "hidden"
+	// elemPopup2.classList.remove("_add")
+	// elemPopup2.classList.add('_edit')
+	let form = popup3Form
 	form.elements.name.value = popupTitle.innerText;
 	 form.elements.age.value = parseInt(popupSubtitle.innerText.match(/\d+/)) 
 	 form.elements.description.value = popupText.innerText;
@@ -357,9 +360,7 @@ document.querySelector('.header__btn-refresh').addEventListener('click', () => {
 
 
 headerBtn.addEventListener('click', () => {
-	elemPopup2.classList.remove("_edit")
 	elemPopup2.classList.add("_active")
-	elemPopup2.classList.add("_add")
 })
 
 console.log('4');

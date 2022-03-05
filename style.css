@@ -267,7 +267,7 @@ header {
 
 
 
-/* .popup3 {
+.popup3 {
 	width: 100vw;
 	height: 100vh;
 	background: #42404099;
@@ -320,7 +320,7 @@ header {
 	top: 8px;
 	right: 16px;
 	cursor: pointer;
-} */
+}
 
 ._active {
 	display: flex;
